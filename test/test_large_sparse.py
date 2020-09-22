@@ -91,8 +91,8 @@ class TestLargeSparse(unittest.TestCase):
     def test_snopt(self):
         test_name = "large_sparse_SNOPT"
         optOptions = {
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
         self.optimize("snopt", tol=1e-5, optOptions=optOptions)
 

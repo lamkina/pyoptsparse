@@ -80,7 +80,7 @@ class OVBaseClass(object):
                 histIndex = ""
             else:  # If multiple history files, append letters to the keys,
                 # such that 'key' becomes 'key_A', 'key_B', etc
-                histIndex = "_" + chr(histIndex + ord("A"))
+                histIndex = f"_{chr(histIndex + ord('A'))}"
             self.histIndex = histIndex
 
             try:  # This is the classic method of storing history files
@@ -221,7 +221,7 @@ class OVBaseClass(object):
 
                 # If this is an OpenMDAO file, the keys are of the format
                 # 'rank0:SNOPT|1', etc
-                key = "%d" % i
+                key = f"{int(i)}"
 
                 # Only actual optimization iterations have 'funcs' in them.
                 # pyOptSparse saves info for two iterations for every
@@ -243,7 +243,7 @@ class OVBaseClass(object):
 
         else:  # this is if it's OpenMDAO
             for i, iter_type in enumerate(self.iter_type):
-                key = "{}|{}".format(self.solver_name, i + 1)  # OpenMDAO uses 1-indexing
+                key = f"{self.solver_name}|{i + 1}"  # OpenMDAO uses 1-indexing
                 if i in self.deriv_keys:
                     self.iter_type[i] = 1.0
 
@@ -264,9 +264,9 @@ class OVBaseClass(object):
             # If this is an OpenMDAO file, the keys are of the format
             # 'rank0:SNOPT|1', etc
             if OpenMDAO:
-                key = "{}|{}".format(self.solver_name, i + 1)  # OpenMDAO uses 1-indexing
+                key = f"{self.solver_name}|{i + 1}"  # OpenMDAO uses 1-indexing
             else:  # Otherwise the keys are simply a number
-                key = "%d" % i
+                key = f"{int(i)}"
 
             # Do this for both major and minor iterations
             if self.iter_type[i]:
@@ -279,7 +279,7 @@ class OVBaseClass(object):
 
                     # Format a new_key string where we append a modifier
                     # if we have multiple history files
-                    new_key = key + "{}".format(self.histIndex)
+                    new_key = f"{key}{self.histIndex}"
 
                     # If this key is not in the data dictionaries, add it
                     if new_key not in data_all:
@@ -309,13 +309,13 @@ class OVBaseClass(object):
 
                     # We'll rename each item, so we need to get the old item
                     # name and modify it
-                    item = old_item + "{}".format(self.histIndex)
+                    item = f"{old_item}{self.histIndex}"
 
                     # Here we just have an open parenthesis, and then we will
                     # add o, c, or dv. Note that we could add multiple flags
                     # to a single item. That's why we have a sort of convoluted
                     # process of adding the tags.
-                    new_key = item + " ("
+                    new_key = f"{item} ("
                     flag_list = []
 
                     # Check each flag and see if they have the relevant entries
@@ -331,9 +331,9 @@ class OVBaseClass(object):
                     # Create the new_key based on the flags for each variable
                     for flag in flag_list:
                         if flag == flag_list[-1]:
-                            new_key += flag + ")"
+                            new_key += f"{flag})"
                         else:
-                            new_key += flag + ", "
+                            new_key += f"{flag}, "
 
                     # If there are actually flags to add, pop out the old items
                     # in the dict and re-add them with the new name.

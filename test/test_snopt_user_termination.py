@@ -74,8 +74,8 @@ class TestUserTerminationStatus(unittest.TestCase):
 
         test_name = "SNOPT_user_termination_obj"
         optOptions = {
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
         try:
             opt = SNOPT(options=optOptions)
@@ -103,8 +103,8 @@ class TestUserTerminationStatus(unittest.TestCase):
 
         test_name = "SNOPT_user_termination_sens"
         optOptions = {
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
         try:
             opt = SNOPT(options=optOptions)

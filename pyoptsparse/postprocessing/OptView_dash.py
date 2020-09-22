@@ -69,7 +69,7 @@ class ReadOptHist(OVBaseClass):
                 histIndex = ""
             else:  # If multiple history files, append letters to the keys,
                 # such that 'key' becomes 'key_A', 'key_B', etc
-                histIndex = "_" + chr(histIndex + ord("A"))
+                histIndex = f"_{chr(histIndex + ord('A'))}"
             self.histIndex = histIndex
 
             try:  # This is the classic method of storing history files
@@ -199,7 +199,7 @@ class ReadOptHist(OVBaseClass):
 
                 # If this is an OpenMDAO file, the keys are of the format
                 # 'rank0:SNOPT|1', etc
-                key = "%d" % i
+                key = f"{int(i)}"
 
                 # Only actual optimization iterations have 'funcs' in them.
                 # pyOptSparse saves info for two iterations for every
@@ -220,7 +220,7 @@ class ReadOptHist(OVBaseClass):
                         # inaccurate, especially if the optimization used
                         # gradient-enhanced line searches.
                         try:
-                            keyp1 = "%d" % (i + 1)
+                            keyp1 = f"{int(i + 1)}"
                             db[keyp1]["funcsSens"]
                             self.iter_type[i] = 1  # for 'major' iterations
                         except KeyError:
@@ -236,11 +236,11 @@ class ReadOptHist(OVBaseClass):
                 if iter_type == 0:
                     continue
 
-                key = "%d" % i
+                key = f"{int(i)}"
 
         else:  # this is if it's OpenMDAO
             for i, iter_type in enumerate(self.iter_type):
-                key = "{}|{}".format(self.solver_name, i + 1)  # OpenMDAO uses 1-indexing
+                key = f"{self.solver_name}|{i + 1}"  # OpenMDAO uses 1-indexing
                 if i in self.deriv_keys:
                     self.iter_type[i] = 1.0
 
@@ -261,9 +261,9 @@ class ReadOptHist(OVBaseClass):
             # If this is an OpenMDAO file, the keys are of the format
             # 'rank0:SNOPT|1', etc
             if OpenMDAO:
-                key = "{}|{}".format(self.solver_name, i + 1)  # OpenMDAO uses 1-indexing
+                key = f"{self.solver_name}|{i + 1}"  # OpenMDAO uses 1-indexing
             else:  # Otherwise the keys are simply a number
-                key = "%d" % i
+                key = f"{int(i)}"
 
             # Do this for both major and minor iterations
             if self.iter_type[i]:
@@ -276,7 +276,7 @@ class ReadOptHist(OVBaseClass):
 
                     # Format a new_key string where we append a modifier
                     # if we have multiple history files
-                    new_key = key + "{}".format(self.histIndex)
+                    new_key = f"{key}{self.histIndex}"
 
                     # If this key is not in the data dictionaries, add it
                     if new_key not in data_all:
@@ -306,13 +306,13 @@ class ReadOptHist(OVBaseClass):
 
                     # We'll rename each item, so we need to get the old item
                     # name and modify it
-                    item = old_item + "{}".format(self.histIndex)
+                    item = f"{old_item}{self.histIndex}"
 
                     # Here we just have an open parenthesis, and then we will
                     # add o, c, or dv. Note that we could add multiple flags
                     # to a single item. That's why we have a sort of convoluted
                     # process of adding the tags.
-                    new_key = item + " ("
+                    new_key = f"{item} ("
                     flag_list = []
 
                     # Check each flag and see if they have the relevant entries
@@ -328,9 +328,9 @@ class ReadOptHist(OVBaseClass):
                     # Create the new_key based on the flags for each variable
                     for flag in flag_list:
                         if flag == flag_list[-1]:
-                            new_key += flag + ")"
+                            new_key += f"{flag})"
                         else:
-                            new_key += flag + ", "
+                            new_key += f"{flag}, "
 
                     # If there are actually flags to add, pop out the old items
                     # in the dict and re-add them with the new name.
@@ -506,7 +506,7 @@ def update_2d_scatter(dvar, func, axisscale, type, n):
     if dvar:
         for var in dvar:
             index = var.split("_")[-1]
-            varname = var[::-1].replace(index + "_", "", 1)[::-1]
+            varname = var[::-1].replace(f"{index}_", "", 1)[::-1]
             trace.append(
                 go.Scatter(
                     x=range(Opt.num_iter),
@@ -520,7 +520,7 @@ def update_2d_scatter(dvar, func, axisscale, type, n):
     if func:
         for var in func:
             index = var.split("_")[-1]
-            varname = var[::-1].replace(index + "_", "", 1)[::-1]
+            varname = var[::-1].replace(f"{index}_", "", 1)[::-1]
             trace.append(
                 go.Scatter(
                     x=range(Opt.num_iter),
@@ -566,7 +566,7 @@ def update_dvar_child(dvar):
     if dvar:
         for var in dvar:
             num = len(Opt.var_data[var][0])
-            strlist += [var + "_" + str(i) for i in range(num)]
+            strlist += [f"{var}_{str(i)}" for i in range(num)]
     return [{"label": i, "value": i} for i in strlist]
 
 
@@ -576,7 +576,7 @@ def update_func_child(func):
     if func:
         for var in func:
             num = len(Opt.func_data_all[var][0])
-            strlist += [var + "_" + str(i) for i in range(num)]
+            strlist += [f"{var}_{str(i)}" for i in range(num)]
 
     return [{"label": i, "value": i} for i in strlist]
 

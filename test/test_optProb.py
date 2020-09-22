@@ -24,7 +24,7 @@ class TestOptProb(unittest.TestCase):
         for x in xdict.keys():
             funcs["obj_0"] += np.sum(np.power(xdict[x], 2))
         for iCon, nc in enumerate(self.nCon):
-            conName = "con_{}".format(iCon)
+            conName = f"con_{iCon}"
             funcs[conName] = np.zeros(nc)
             for x in xdict.keys():
                 for j in range(nc):
@@ -54,7 +54,7 @@ class TestOptProb(unittest.TestCase):
             lower = np.random.uniform(-5, 2, n)
             upper = np.random.uniform(5, 20, n)
             x0 = np.random.uniform(lower, upper)
-            dvName = "x{}".format(iDV)
+            dvName = f"x{iDV}"
             self.x0[dvName] = x0
             self.optProb.addVarGroup(
                 dvName,
@@ -72,7 +72,7 @@ class TestOptProb(unittest.TestCase):
             lower = np.random.uniform(-5, 2, nc)
             upper = np.random.uniform(5, 6, nc)
             self.optProb.addConGroup(
-                "con_{}".format(iCon),
+                f"con_{iCon}",
                 nc,
                 lower=lower,
                 upper=upper,
@@ -81,7 +81,7 @@ class TestOptProb(unittest.TestCase):
 
         # Objective
         for iObj in range(nObj):
-            self.optProb.addObj("obj_{}".format(iObj), scale=objScale[iObj])
+            self.optProb.addObj(f"obj_{iObj}", scale=objScale[iObj])
 
         # Finalize
         self.optProb.printSparsity()
@@ -210,8 +210,8 @@ class TestOptProb(unittest.TestCase):
         self.assert_dict_allclose(val, dictionary)
 
         # test mappings using dictionaries
-        val_opt = map_funcs[key + "_Dict"][0](val)
-        val_user = map_funcs[key + "_Dict"][1](val_opt)
+        val_opt = map_funcs[f"{key}_Dict"][0](val)
+        val_user = map_funcs[f"{key}_Dict"][1](val_opt)
         self.assert_dict_allclose(val_user, val)
         self.assert_dict_not_allclose(val_user, val_opt)
 
@@ -254,14 +254,14 @@ class TestOptProb(unittest.TestCase):
         self.assertEqual(set(actual.keys()), set(desired.keys()))
         for key in actual.keys():
             if np.allclose(actual[key], desired[key], atol=tol, rtol=tol):
-                raise AssertionError("Dictionaries are close! Inputs are {} and {}".format(actual, desired))
+                raise AssertionError(f"Dictionaries are close! Inputs are {actual} and {desired}")
 
     def assert_not_allclose(self, actual, desired, atol=tol, rtol=tol):
         """
         The numpy array version
         """
         if np.allclose(actual, desired, atol=atol, rtol=tol):
-            raise AssertionError("Arrays are close! Inputs are {} and {}".format(actual, desired))
+            raise AssertionError(f"Arrays are close! Inputs are {actual} and {desired}")
 
 
 if __name__ == "__main__":

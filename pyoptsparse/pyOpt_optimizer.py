@@ -666,7 +666,7 @@ class Optimizer(object):
                     xs.append(var.value)
 
                 else:
-                    raise Error("%s cannot handle integer or discrete design variables" % self.name)
+                    raise Error(f"{self.name} cannot handle integer or discrete design variables")
 
         blx = np.array(blx)
         bux = np.array(bux)
@@ -826,7 +826,7 @@ class Optimizer(object):
                     )
                 )
         else:
-            raise Error("Received an unknown option: %s" % repr(name))
+            raise Error(f"Received an unknown option: {repr(name)}")
 
         # Now call the optimizer specific routine
         self._on_setOption(name, value)
@@ -855,7 +855,7 @@ class Optimizer(object):
         if name in self.options["defaults"]:
             return self.options[name][1]
         else:
-            raise Error("Received an unknown option: %s." % repr(name))
+            raise Error(f"Received an unknown option: {repr(name)}.")
 
         # Now call the optimizer specific routine
         self._on_getOption(name)
@@ -932,9 +932,10 @@ def OPT(optName, *args, **kwargs):
         from .pyParOpt.ParOpt import ParOpt as opt
     else:
         raise Error(
-            "The optimizer specified in 'optName' was \
-not recognized. The current list of supported optimizers is: %s"
-            % repr(optList)
+            (
+                "The optimizer specified in 'optName' was not recognized. "
+                + f"The current list of supported optimizers is: {repr(optList)}"
+            )
         )
 
     # Create the optimizer and return it

@@ -393,14 +393,14 @@ class SNOPT(Optimizer):
             if iPrint != 0 and iPrint != 6:
                 ierror = snopt.openunit(iPrint, PrintFile, "replace", "sequential")
                 if ierror != 0:
-                    raise Error("Failed to properly open %s, ierror = %3d" % (PrintFile, ierror))
+                    raise Error(f"Failed to properly open {PrintFile}, ierror = {int(ierror):3}")
 
             iSumm = self.getOption("iSumm")
             SummFile = os.path.join(self.getOption("Summary file"))
             if iSumm != 0 and iSumm != 6:
                 ierror = snopt.openunit(iSumm, SummFile, "replace", "sequential")
                 if ierror != 0:
-                    raise Error("Failed to properly open %s, ierror = %3d" % (SummFile, ierror))
+                    raise Error(f"Failed to properly open {SummFile}, ierror = {int(ierror):3}")
 
             # Calculate the length of the work arrays
             # --------------------------------------
@@ -684,11 +684,11 @@ class SNOPT(Optimizer):
                     elif value == "Feasible point":
                         snopt.snset("Feasible point", iPrint, iSumm, inform, cw, iw, rw)
                 elif name == "Print file":
-                    snopt.snset(name + " " + "%d" % iPrint, iPrint, iSumm, inform, cw, iw, rw)
+                    snopt.snset(f"{name} {iPrint}", iPrint, iSumm, inform, cw, iw, rw)
                 elif name == "Summary file":
-                    snopt.snset(name + " " + "%d" % iSumm, iPrint, iSumm, inform, cw, iw, rw)
+                    snopt.snset(f"{name} {iSumm}", iPrint, iSumm, inform, cw, iw, rw)
                 else:
-                    snopt.snset(name + " " + value, iPrint, iSumm, inform, cw, iw, rw)
+                    snopt.snset(f"{name} {value}", iPrint, iSumm, inform, cw, iw, rw)
             elif isinstance(value, float):
                 snopt.snsetr(name, value, iPrint, iSumm, inform, cw, iw, rw)
             elif isinstance(value, int):

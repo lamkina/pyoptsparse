@@ -232,7 +232,7 @@ class Constraint(object):
                 try:
                     self.wrt = list(self.wrt)
                 except:  # noqa: E722
-                    raise Error("The 'wrt' argument to constraint '%s' must be an iterable list" % self.name)
+                    raise Error(f"The 'wrt' argument to constraint '{self.name}' must be an iterable list")
 
             # We allow 'None' to be in the list...they are null so
             # just pop them out:
@@ -244,9 +244,7 @@ class Constraint(object):
                 if dvGroup not in variables:
                     raise Error(
                         (
-                            "The supplied dvGroup '{}' in 'wrt' for the {} constraint, does not exist. ".format(
-                                dvGroup, self.name
-                            )
+                            f"The supplied dvGroup '{dvGroup}' in 'wrt' for the {self.name} constraint, does not exist. "
                             + "It must be added with a call to addVar() or addVarGroup()."
                         )
                     )
@@ -257,7 +255,7 @@ class Constraint(object):
                 duplicate_vars = list(set([x for x in self.wrt if self.wrt.count(x) > 1]))
                 pyOptSparseWarning(
                     (
-                        "The constraint {} was created with duplicate variables in 'wrt'. ".format(self.name)
+                        f"The constraint {self.name} was created with duplicate variables in 'wrt'. "
                         + "The following duplicates were automatically removed: "
                     )
                 )

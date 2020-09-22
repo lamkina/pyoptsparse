@@ -83,7 +83,7 @@ class TestRosenbrock(unittest.TestCase):
         # Solution
         if storeHistory is not None:
             if storeHistory is True:
-                self.histFileName = "%s_Rsbrk_Hist.hst" % (optName.lower())
+                self.histFileName = f"{optName.lower()}_Rsbrk_Hist.hst"
             elif isinstance(storeHistory, str):
                 self.histFileName = storeHistory
         else:
@@ -180,7 +180,7 @@ class TestRosenbrock(unittest.TestCase):
         self.optimize(
             optName,
             tol,
-            storeHistory="{}_new_hotstart.hst".format(optName),
+            storeHistory=f"{optName}_new_hotstart.hst",
             hotStart=self.histFileName,
             optOptions=optOptions,
         )
@@ -193,8 +193,8 @@ class TestRosenbrock(unittest.TestCase):
         store_vars = ["step", "merit", "feasibility", "optimality", "penalty", "Hessian", "condZHZ", "slack", "lambda"]
         optOptions = {
             "Save major iteration variables": store_vars,
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
         self.optimize_with_hotstart("SNOPT", 1e-8, optOptions=optOptions)
 

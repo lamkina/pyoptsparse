@@ -118,7 +118,7 @@ class Display(OVBaseClass):
         """
         self.f.clf()
         a = self.f.add_subplot(111)
-        a.text(0.05, 0.9, "Error: " + string, fontsize=20, transform=a.transAxes)
+        a.text(0.05, 0.9, f"Error: {string}", fontsize=20, transform=a.transAxes)
         self.canvas.draw()
 
     def warning_display(self, string="That option not supported"):
@@ -126,7 +126,7 @@ class Display(OVBaseClass):
         Display warning message on canvas as necessary.
         """
         a = plt.gca()
-        a.text(0.05, 0.9, "Warning: " + string, fontsize=20, transform=a.transAxes)
+        a.text(0.05, 0.9, f"Warning: {string}", fontsize=20, transform=a.transAxes)
         self.canvas.draw()
 
     def note_display(self, string=""):
@@ -171,7 +171,7 @@ class Display(OVBaseClass):
                     [0, self.num_iter - 1],
                     [upper_bound, upper_bound],
                     "--",
-                    label=val + " bounds",
+                    label=f"{val} bounds",
                     linewidth=2,
                     clip_on=False,
                 )
@@ -285,7 +285,7 @@ class Display(OVBaseClass):
 
             # Otherwise, have the data label and append a number to it.
             else:
-                tick_labels.append(label + " 0")
+                tick_labels.append(f"{label} 0")
 
                 # However, if there are a large number of data points,
                 # only label 12 of them to space out the labels.
@@ -535,7 +535,7 @@ class Display(OVBaseClass):
                         plots = a[i].plot(
                             range(1, self.num_iter), newdat[1:], "o-", label=val, markeredgecolor="none", clip_on=False
                         )
-                        a[i].set_ylabel("delta " + val)
+                        a[i].set_ylabel(f"delta {val}")
                         self.plots.append([plots[0], -1])
 
                 # Otherwise plot original data
@@ -616,7 +616,7 @@ class Display(OVBaseClass):
                 self.v.set(values[0])
                 self.lb_arr.delete(0, Tk.END)
                 for i, val in enumerate(data[0]):
-                    self.lb_arr.insert(Tk.END, values[0] + "_" + str(i))
+                    self.lb_arr.insert(Tk.END, f"{values[0]}_{str(i)}")
                 self.arr_title.pack(side=Tk.TOP)
                 self.scrollbar_arr.pack(side=Tk.RIGHT, fill=Tk.Y)
                 self.lb_arr.pack(side=Tk.RIGHT)
@@ -650,7 +650,7 @@ class Display(OVBaseClass):
         self.arr_data = {}
         self.val_names = []
         for i, val in enumerate(values):
-            self.val_names.append(values_orig[0] + "_{0}".format(val))
+            self.val_names.append(f"{values_orig[0]}_{val}")
             self.arr_data[self.val_names[i]] = []
             for ind_dat in dat:
                 self.arr_data[self.val_names[i]].append(ind_dat[val])
@@ -715,8 +715,8 @@ class Display(OVBaseClass):
             values = [self.lb_var.get(i) for i in var_sel]
         groups = ""
         for string in values:
-            groups += string + "_"
-        fname = groups + ".png"
+            groups += f"{string}_"
+        fname = f"{groups}.png"
         fpathname = os.path.join(self.outputDir, fname)
         plt.savefig(fpathname)
         fname = "saved_figure.pickle"
@@ -737,7 +737,7 @@ class Display(OVBaseClass):
                 fig = plt.figure()
                 plt.plot(data_name[key], "ko-")
                 plt.title(key)
-                fname = key + ".png"
+                fname = f"{key}.png"
                 fpathname = os.path.join(self.outputDir, fname)
                 plt.savefig(fpathname)
                 plt.clf()
@@ -783,17 +783,17 @@ class Display(OVBaseClass):
                     for j in range(m):
                         indiv_data[j] = small_data[j][i]
                     full_data = np.c_[full_data, indiv_data]
-                    var_names.append(key + "_{}".format(i))
+                    var_names.append(f"{key}_{i}")
 
         filename = "OptView_tec.dat"
         self._file = open(filename, "w")
         self._file.write('Title = "OptView data output"" \n')
         self._file.write("Variables = ")
         for name in var_names:
-            self._file.write('"' + name + '" ')
+            self._file.write(f"\"{name}\" ")
         self._file.write("\n")
 
-        self._file.write('Zone T= "OptView_tec_data", ' + "I={}, ".format(num_iters) + "F=POINT\n")
+        self._file.write(f"Zone T= \"OptView_tec_data\", I={num_iters}, F=POINT\n")
         np.savetxt(self._file, full_data)
         self._file.close()
 
@@ -902,7 +902,7 @@ class Display(OVBaseClass):
                 ax = point_selected[0].axes
                 label = point_selected[0].get_label()
                 if point_selected[1] >= 0:
-                    label = label + "_" + str(point_selected[1])
+                    label = f"{label}_{str(point_selected[1])}"
 
                 xdat = point_selected[0].get_xdata()
                 ydat = point_selected[0].get_ydata()
@@ -910,7 +910,7 @@ class Display(OVBaseClass):
                 iter_count = np.round(event.xdata, 0)
                 ind = np.where(xdat == iter_count)[0][0]
 
-                label = label + "\niter: {0:d}\nvalue: {1}".format(int(iter_count), ydat[ind])
+                label = f"{label}\niter: {int(iter_count):d}\nvalue: {ydat[ind]}"
 
                 # Get the width of the window so we can scale the label placement
                 size = self.f.get_size_inches() * self.f.dpi

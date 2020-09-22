@@ -82,7 +82,7 @@ class OptimizerTable(Table):
             for key, values in self.defOpts.items():
                 trow = nodes.row()
                 # first add the name column, with text = key
-                trow += add_col("``" + key + "``")
+                trow += add_col(f"``{key}``")
                 # loop over dictionary values
                 for idx, value in enumerate(values):
                     # this is the type of the default value, so we need to extract the __name__ attribute
@@ -93,9 +93,9 @@ class OptimizerTable(Table):
                         if isinstance(value, (float, int)):
                             limit = 5
                             if abs(value) > 10 ** limit or (abs(value) < 10 ** (-limit) and abs(value) > 0):
-                                value = "{:.3E}".format(value)
+                                value = f"{value:.3E}"
                             else:
-                                value = "{}".format(value)
+                                value = f"{value}"
                         trow += add_col(str(value))
                 rows.append(trow)
         # informs
@@ -103,7 +103,7 @@ class OptimizerTable(Table):
             for key, value in self.informs.items():
                 trow = nodes.row()
                 # first add the name column, with text = key
-                trow += add_col("``" + str(key) + "``")
+                trow += add_col(f"``{str(key)}``")
                 # add inform description
                 trow += add_col(value)
                 rows.append(trow)
@@ -115,7 +115,7 @@ class OptimizerTable(Table):
         table += tgroup
 
         tgroup.extend(
-            nodes.colspec(colwidth=col_width, colname="c" + str(idx)) for idx, col_width in enumerate(self.col_widths)
+            nodes.colspec(colwidth=col_width, colname=f"c{str(idx)}") for idx, col_width in enumerate(self.col_widths)
         )
 
         thead = nodes.thead()

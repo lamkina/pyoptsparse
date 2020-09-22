@@ -5,7 +5,7 @@ from sqlitedict import SqliteDict
 db = SqliteDict()
 opts = ["ipopt", "slsqp", "snopt", "conmin", "nlpqlp", "psqp"]
 for opt in opts:
-    fileName = "%s_hs015_Hist.hst" % opt
+    fileName = f"{opt}_hs015_Hist.hst"
     try:
         db[opt] = SqliteDict(fileName)
     except:  # noqa: E722
@@ -23,9 +23,9 @@ for opt in db.keys():
     x2[opt] = []
     for i in range(n):
         try:
-            obj[opt].append(db[opt]["%d" % i]["funcs"]["obj"])
-            x1[opt].append(db[opt]["%d" % i]["xuser"]["xvars"][0])
-            x2[opt].append(db[opt]["%d" % i]["xuser"]["xvars"][1])
+            obj[opt].append(db[opt][f"{int(i)}"]["funcs"]["obj"])
+            x1[opt].append(db[opt][f"{int(i)}"]["xuser"]["xvars"][0])
+            x2[opt].append(db[opt][f"{int(i)}"]["xuser"]["xvars"][1])
         except:  # noqa: E722
             pass
 
@@ -60,7 +60,7 @@ yupper = [-7, 3.0]
 styleList = ["ko-", "ro-", "bo-", "go-", "mo-", "co-", "ks--"]
 counter = 0
 for opt in db.keys():
-    plt.plot(x1[opt], x2[opt], styleList[counter], label="%s" % (opt))
+    plt.plot(x1[opt], x2[opt], styleList[counter], label=f"{opt}")
     counter += 1
 
 # end

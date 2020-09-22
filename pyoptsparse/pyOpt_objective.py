@@ -33,7 +33,7 @@ class Objective(object):
         Structured Print of Objective
         """
         res = "        Name        Value        Optimum\n"
-        res += "	 " + str(self.name).center(9)
-        res += "%12g  %12g\n" % (np.real(self.value), np.real(self.optimum))
+        res += f"	 {str(self.name).center(9)}"
+        res += f"{np.real(self.value):12g}  {np.real(self.optimum):12g}\n"
 
         return res

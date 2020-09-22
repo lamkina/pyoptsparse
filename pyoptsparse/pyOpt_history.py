@@ -49,7 +49,7 @@ class History(object):
                 # manually close the underlying db at the end
                 self.db = OrderedDict(SqliteDict(fileName))
             else:
-                raise Error("The requested history file %s to open in read-only mode does not exist." % fileName)
+                raise Error(f"The requested history file {fileName} to open in read-only mode does not exist.")
             self._processDB()
         else:
             raise Error("The flag argument to History must be 'r' or 'n'.")
@@ -82,7 +82,7 @@ class History(object):
         """
 
         # String key to database on disk
-        key = "%d" % callCounter
+        key = f"{int(callCounter)}"
         # if the point exists, we merely update with new data
         if self.pointExists(callCounter):
             oldData = self.read(callCounter)
@@ -175,7 +175,7 @@ class History(object):
         last = int(self.db["last"])
         callCounter = None
         for i in range(last, 0, -1):
-            key = "%d" % i
+            key = f"{int(i)}"
             xuser = self.optProb.processXtoVec(self.db[key]["xuser"])
             if np.isclose(xuser, x, atol=eps, rtol=eps).all() and "funcs" in self.db[key].keys():
                 callCounter = i

@@ -90,9 +90,9 @@ class TestHS71(unittest.TestCase):
         Test that setDV works as expected, even with scaling/offset
         """
         test_name = "hs071_SLSQP_setDV"
-        histFileName = "{}.hst".format(test_name)
+        histFileName = f"{test_name}.hst"
         newDV = {"xvars": np.array([1, 4, 4, 1])}
-        optOptions = {"IFILE": "{}.out".format(test_name)}
+        optOptions = {"IFILE": f"{test_name}.out"}
         self.optimize(
             "SLSQP",
             1e-5,
@@ -116,10 +116,10 @@ class TestHS71(unittest.TestCase):
         """
         test_name = "hs071_SNOPT_setDVFromHist"
         optOptions = {
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
-        histFileName = "{}.hst".format(test_name)
+        histFileName = f"{test_name}.hst"
         self.optimize(
             "snopt",
             1e-6,
@@ -159,8 +159,8 @@ class TestHS71(unittest.TestCase):
         Also test optProb stored in the history file is correct
         """
         test_name = "hs071_SLSQP_scaling_offset"
-        histFileName = "{}.hst".format(test_name)
-        optOptions = {"IFILE": "{}.out".format(test_name)}
+        histFileName = f"{test_name}.hst"
+        optOptions = {"IFILE": f"{test_name}.out"}
         objScale = 4.2
         xScale = [2, 3, 4, 5]
         conScale = [0.6, 1.7]
@@ -213,8 +213,8 @@ class TestHS71(unittest.TestCase):
     def test_snopt(self):
         test_name = "hs071_SNOPT"
         optOptions = {
-            "Print file": "{}.out".format(test_name),
-            "Summary file": "{}_summary.out".format(test_name),
+            "Print file": f"{test_name}.out",
+            "Summary file": f"{test_name}_summary.out",
         }
         sol = self.optimize("snopt", 1e-6, optOptions=optOptions)
         self.assertEqual(sol.optInform["value"], 1)

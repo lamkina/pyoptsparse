@@ -100,22 +100,22 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     sfname = ""
     fntmp = filename.split(".")
     if len(fntmp) == 1:
-        ofname += fntmp[0] + "_print.out"
-        sfname += fntmp[0] + "_summary.out"
+        ofname += f"{fntmp[0]}_print.out"
+        sfname += f"{fntmp[0]}_summary.out"
     else:
         if "/" not in fntmp[-1] and "\\" not in fntmp[-1]:
-            ofname += filename[: filename.rfind(".")] + "_print." + fntmp[-1]
-            sfname += filename[: filename.rfind(".")] + "_summary." + fntmp[-1]
+            ofname += f"{filename[:filename.rfind('.')]}_print.{fntmp[-1]}"
+            sfname += f"{filename[:filename.rfind('.')]}_summary.{fntmp[-1]}"
         else:
-            ofname += filename + "_print.out"
-            sfname += filename + "_summary.out"
+            ofname += f"{filename}_print.out"
+            sfname += f"{filename}_summary.out"
 
     header = ""
-    header += " " * 37 + "======================\n"
-    header += " " * 39 + " ALPSO 1.1 (Serial)\n"
-    header += " " * 37 + "======================\n\n"
+    header += f"{' ' * 37}======================\n"
+    header += f"{' ' * 39} ALPSO 1.1 (Serial)\n"
+    header += f"{' ' * 37}======================\n\n"
     header += "Parameters:\n"
-    header += "-" * 97 + "\n"
+    header += f"{'-' * 97}\n"
     if maxInnIter != minInnIter:
         diI = 1
     else:
@@ -141,7 +141,7 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     header += 'Inequality Tolerance: %1.2e' % itol + '    Maximum Velocity  :%9d' % vmax + '    Selfless           :%11d\n' % nhs
     header += 'Equality Tolerance  : %1.2e' % etol + '    Craziness Velocity: %1.2e' % vcrazy + '    Fileout            :%11d\n' % fileout
     header += 'Global Distance     : %1.2e' % dtol + '    Initial Penalty   :%9.2f' % r0 + '    File Name          :%11s\n' % filename
-    header += '-' * 97 + '\n\n'
+    header += f"{'-' * 97}\n\n"
 # fmt: on
     if (fileout == 1) or (fileout == 3):
         if os.path.isfile(ofname):
@@ -443,9 +443,9 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     if (fileout == 2) or (fileout == 3):
         stext = ""
         stext += "Global Best Particle:\n"
-        stext += "-" * 97 + "\n"
+        stext += f"{'-' * 97}\n"
         stext += "    Major   Minor   nFCon   Violation(L2)     Objective   Lagrangian   Rel Lagrangian   Global Dist\n"
-        stext += "-" * 97 + "\n"
+        stext += f"{'-' * 97}\n"
         sfile.write(stext)
         sfile.flush()
 
@@ -730,11 +730,11 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
         # Print Outer
         if prtOutIter != 0 and np.mod(k_out, prtOutIter) == 0:
             # Output to screen
-            print("=" * 80 + "\n")
+            print(f"{'=' * 80}\n")
             print("NUMBER OF ITERATIONS: %d\n" % k_out)
             print("NUMBER OF OBJECTIVE FUNCTION EVALUATIONS: %d\n" % nfevals)
             print("OBJECTIVE FUNCTION VALUE:")
-            print("\tF = %.16g\n" % (float(swarm_f)))
+            print(f"\tF = {float(swarm_f):.16g}\n")
             if constraints > 0:
                 # Equality Constraints
                 print("EQUALITY CONSTRAINTS VALUES:")
@@ -766,15 +766,15 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
                     text += "\n"
 
             print(text)
-            print("=" * 80 + "\n")
+            print(f"{'=' * 80}\n")
 
         if (fileout == 1) or (fileout == 3):
             # Output to Print File
-            ofile.write("\n" + "=" * 80 + "\n")
+            ofile.write(f"\n{'=' * 80}\n")
             ofile.write("\nNUMBER OF ITERATIONS: %d\n" % k_out)
             ofile.write("\nNUMBER OF OBJECTIVE FUNCTION EVALUATIONS: %d\n" % nfevals)
             ofile.write("\nOBJECTIVE FUNCTION VALUE:\n")
-            ofile.write("\tF = %.16g\n" % (float(swarm_f)))
+            ofile.write(f"\tF = {float(swarm_f):.16g}\n")
             if constraints > 0:
                 # Equality Constraints
                 ofile.write("\nEQUALITY CONSTRAINTS VALUES:\n")
@@ -810,7 +810,7 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
                     text += "\n"
 
             ofile.write(text)
-            ofile.write("\n" + "=" * 80 + "\n")
+            ofile.write(f"\n{'=' * 80}\n")
             ofile.flush()
 
         # Store History
@@ -1034,12 +1034,12 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     # Print Results
     if prtOutIter != 0:
         # Output to screen
-        print("=" * 80 + "\n")
-        print("RANDOM SEED VALUE: %.8f\n" % rseed)
+        print(f"{'=' * 80}\n")
+        print(f"RANDOM SEED VALUE: {rseed:.8f}\n")
         print("NUMBER OF ITERATIONS: %d\n" % k_out)
         print("NUMBER OF OBJECTIVE FUNCTION EVALUATIONS: %d\n" % nfevals)
         print("OBJECTIVE FUNCTION VALUE:")
-        print("\tF = %.16g\n" % (float(swarm_f)))
+        print(f"\tF = {float(swarm_f):.16g}\n")
         if constraints > 0:
             # Equality Constraints
             print("EQUALITY CONSTRAINTS VALUES:")
@@ -1071,7 +1071,7 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
                 text += "\n"
 
         print(text)
-        print("=" * 80 + "\n")
+        print(f"{'=' * 80}\n")
 
     if (fileout == 1) or (fileout == 3):
         ofile.close()
@@ -1079,11 +1079,11 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     if (fileout == 2) or (fileout == 3):
         # Output to Summary
         sfile.write("\n\nSolution:")
-        sfile.write("\n" + "=" * 94 + "\n")
+        sfile.write(f"\n{'=' * 94}\n")
         sfile.write("\nNUMBER OF ITERATIONS: %d\n" % k_out)
         sfile.write("\nNUMBER OF OBJECTIVE FUNCTION EVALUATIONS: %d\n" % nfevals)
         sfile.write("\nOBJECTIVE FUNCTION VALUE:\n")
-        sfile.write("\tF = %.16g\n" % (float(swarm_f)))
+        sfile.write(f"\tF = {float(swarm_f):.16g}\n")
         if constraints > 0:
             # Equality Constraints
             sfile.write("\nEQUALITY CONSTRAINTS VALUES:\n")
@@ -1119,7 +1119,7 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
                 text += "\n"
 
         sfile.write(text)
-        sfile.write("\n" + "=" * 94 + "\n")
+        sfile.write(f"\n{'=' * 94}\n")
         sfile.flush()
         sfile.close()
 
@@ -1136,4 +1136,4 @@ def alpso(dimensions, constraints, neqcons, xtype, x0, xmin, xmax, swarmsize, nh
     opt_g = swarm_g
     opt_lambda = lambda_val[:]
 
-    return opt_x, opt_f, opt_g, opt_lambda, nfevals, "%.8f" % rseed
+    return opt_x, opt_f, opt_g, opt_lambda, nfevals, f"{rseed:.8f}"
