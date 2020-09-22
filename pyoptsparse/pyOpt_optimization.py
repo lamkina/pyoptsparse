@@ -1394,7 +1394,6 @@ class Optimization(object):
         # funcsSens[objKey] will just be left to zero. We have
         # implicitly assumed that the objective gradient is dense
         # and any keys that are provided are simply zero.
-        # end (objective keys)
 
         # Do scaling
         gobj = self._mapObjGradtoOpt(gobj)
@@ -1522,9 +1521,7 @@ class Optimization(object):
                 data.append(tmp["coo"][IDATA])
                 row.append(tmp["coo"][IROW] + ii)
                 col.append(tmp["coo"][ICOL] + ss[0])
-            # end for (dvGroup in constraint)
             ii += con.ncon
-        # end for (constraint loop)
 
         # now flatten all the data into a single array
         data = np.concatenate(data).ravel()

@@ -729,12 +729,10 @@ class SNOPT(Optimizer):
 
         #
         mjr_code = (infocode[0] / 10) * 10
-        # mnr_code = infocode[0] - 10*mjr_code
         try:
             inform_text = self.informs[mjr_code]
         except KeyError:
             inform_text = "Unknown Exit Status"
-        # end try
 
         return inform_text
 

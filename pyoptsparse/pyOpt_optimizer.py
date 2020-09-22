@@ -261,15 +261,11 @@ class Optimizer(object):
                         returns.append(fail)
                         self.interfaceTime += time.time() - timeA
                         return returns
-                    # end if (valid point -> all data present)
-                # end if (x's match)
-            # end if (point exists)
 
             # We have used up all the information in hot start so we
             # can close the hot start file
             self.hotStart.close()
             self.hotStart = None
-        # end if (hot starting)
 
         # Now we have to actually run our function...this is where the
         # MPI gets a little tricky. Up until now, only the root proc
