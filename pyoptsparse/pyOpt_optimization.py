@@ -235,9 +235,9 @@ class Optimization(object):
         else:
             raise Error(
                 (
-                    "The length of the 'value' argument to addVarGroup is {}, "
-                    + "but the number of variables in nVars is {}."
-                ).format(len(value), nVars)
+                    f"The length of the 'value' argument to addVarGroup is {len(value)}, "
+                    + f"but the number of variables in nVars is {nVars}."
+                )
             )
 
         if lower is None:
@@ -280,9 +280,9 @@ class Optimization(object):
             else:
                 raise Error(
                     (
-                        "The length of the 'scale' argument to addVarGroup is {}, "
-                        + "but the number of variables in nVars is {}."
-                    ).format(len(scale), nVars)
+                        f"The length of the 'scale' argument to addVarGroup is {len(scale)}, "
+                        + f"but the number of variables in nVars is {nVars}."
+                    )
                 )
 
         # ------ Process the offset argument
@@ -297,9 +297,9 @@ class Optimization(object):
             else:
                 raise Error(
                     (
-                        "The length of the 'offset' argument to addVarGroup is {}, "
-                        + "but the number of variables is {}."
-                    ).format(len(offset), nVars)
+                        f"The length of the 'offset' argument to addVarGroup is {len(offset)}, "
+                        + f"but the number of variables is {nVars}."
+                    )
                 )
 
         # Determine if scalar i.e. it was called from addVar():
@@ -1198,8 +1198,9 @@ class Optimization(object):
                     fcon[..., con.rs : con.re] = c
                 else:
                     raise Error(
-                        "{} constraint values were returned in {}, but expected {}.".format(
-                            len(fcon_in[iCon]), iCon, self.constraints[iCon].ncon
+                        (
+                            f"{len(fcon_in[iCon])} constraint values were returned in {iCon}, "
+                            + f"but expected {self.constraints[iCon].ncon}."
                         )
                     )
 
@@ -1479,9 +1480,9 @@ class Optimization(object):
                     except KeyError:
                         raise Error(
                             (
-                                "The constraint Jacobian entry for '{}' with respect to '{}', as was defined in addConGroup(), "
-                                + "was not found in constraint Jacobian dictionary provided."
-                            ).format(con.name, dvGroup)
+                                f"The constraint Jacobian entry for '{con.name}' with respect to '{dvGroup}', "
+                                + "as was defined in addConGroup(), was not found in constraint Jacobian dictionary provided."
+                            )
                         )
                 if not gotDerivative:
                     # All keys for this constraint must be returned
@@ -1489,9 +1490,9 @@ class Optimization(object):
                     if not con.partialReturnOk:
                         raise Error(
                             (
-                                "Constraint '{}' was expecting a jacobain with respect to dvGroup '{}' as was supplied in addConGroup(). "
-                                + "This was not found in the constraint Jacobian dictionary"
-                            ).format(con.name, dvGroup)
+                                f"Constraint '{con.name}' was expecting a jacobain with respect to dvGroup '{dvGroup}' "
+                                + "as was supplied in addConGroup(). This was not found in the constraint Jacobian dictionary"
+                            )
                         )
                     else:
                         # This key is not returned. Just use the
@@ -1502,9 +1503,9 @@ class Optimization(object):
                 if not (tmp["shape"][0] == con.ncon and tmp["shape"][1] == ndvs):
                     raise Error(
                         (
-                            "The shape of the supplied constraint Jacobian for constraint {} with respect to {} is incorrect. "
-                            + "Expected an array of shape ({}, {}), but received an array of shape ({}, {})."
-                        ).format(con.name, dvGroup, con.ncon, ndvs, tmp["shape"][0], tmp["shape"][1])
+                            f"The shape of the supplied constraint Jacobian for constraint {con.name} with respect to {dvGroup} is incorrect. "
+                            + f"Expected an array of shape ({con.ncon}, {ndvs}), but received an array of shape ({tmp['shape'][0]}, {tmp['shape'][1]})."
+                        )
                     )
 
                 # Now check that supplied coo matrix has same length
@@ -1512,9 +1513,9 @@ class Optimization(object):
                 if len(tmp["coo"][2]) != len(con.jac[dvGroup]["coo"][2]):
                     raise Error(
                         (
-                            "The number of nonzero elements for constraint group '{}' with respect to {} was not the correct size. "
-                            + "The supplied Jacobian has {} nonzero entries, but must contain {} nonzero entries."
-                        ).format(con.name, dvGroup, len(tmp["coo"][2]), len(con.jac[dvGroup]["coo"][2]))
+                            f"The number of nonzero elements for constraint group '{con.name}' with respect to {dvGroup} was not the correct size. "
+                            + f"The supplied Jacobian has {len(tmp['coo'][2])} nonzero entries, but must contain {len(con.jac[dvGroup]['coo'][2])} nonzero entries."
+                        )
                     )
 
                 # Include data from this Jacobian chunk
@@ -1642,8 +1643,8 @@ class Optimization(object):
         """
         TOL = 1.0e-6
 
-        text = "\n\nOptimization Problem -- {0}\n{1}\n    Objective Function: {2}\n\n".format(
-            self.name, "=" * 80, self.objFun.__name__
+        text = (
+            f"\n\nOptimization Problem -- {self.name}\n{'=' * 80}\n    Objective Function: {self.objFun.__name__}\n\n"
         )
         text += "\n   Objectives\n"
 

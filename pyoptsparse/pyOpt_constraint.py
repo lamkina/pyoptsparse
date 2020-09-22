@@ -43,7 +43,7 @@ class Constraint(object):
             raise Error(
                 (
                     "The 'lower' argument to addCon or addConGroup is invalid. "
-                    + "It must be None, a scalar, or a list/array or length nCon={}.".format(nCon)
+                    + f"It must be None, a scalar, or a list/array or length nCon={nCon}."
                 )
             )
 
@@ -57,7 +57,7 @@ class Constraint(object):
             raise Error(
                 (
                     "The 'upper' argument to addCon or addConGroup is invalid. "
-                    + "It must be None, a scalar, or a list/array or length nCon={}.".format(nCon)
+                    + f"It must be None, a scalar, or a list/array or length nCon={nCon}."
                 )
             )
 
@@ -70,8 +70,8 @@ class Constraint(object):
         else:
             raise Error(
                 (
-                    "The length of the 'scale' argument to addCon or addConGroup is {}, ".format(len(scale))
-                    + "but the number of constraints is {}.".format(nCon)
+                    f"The length of the 'scale' argument to addCon or addConGroup is {len(scale)}, "
+                    + f"but the number of constraints is {nCon}."
                 )
             )
 
@@ -260,7 +260,7 @@ class Constraint(object):
                     )
                 )
                 for var in duplicate_vars:
-                    print("\t\t{}".format(var))
+                    print(f"\t\t{var}")
                 self.wrt = wrt_uniq
 
         # Last thing for wrt is to reorder them such that dvGroups are
@@ -289,7 +289,7 @@ class Constraint(object):
                 raise Error(
                     (
                         "The 'jac' keyword to argument to addConGroup() must be supplied for a linear constraint. "
-                        + "The constraint in error is {}.".format(self.name)
+                        + f"The constraint in error is {self.name}."
                     )
                 )
 
@@ -311,7 +311,7 @@ class Constraint(object):
                 raise Error(
                     (
                         "The 'jac' keyword argument to addConGroup() must be a dictionary. "
-                        + "The constraint in error is {}.".format(self.name)
+                        + f"The constraint in error is {self.name}."
                     )
                 )
 
@@ -339,25 +339,16 @@ class Constraint(object):
                 if self.jac[dvGroup]["shape"][0] != self.ncon or self.jac[dvGroup]["shape"][1] != ndvs:
                     raise Error(
                         (
-                            "The supplied Jacobian for dvGroup {}' in constraint {}, was the incorrect size. ".format(
-                                dvGroup, self.name
-                            )
-                            + "Expecting a Jacobian of size ({}, {}) but received a Jacobian of size ({}, {}).".format(
-                                self.ncon,
-                                ndvs,
-                                self.jac[dvGroup]["shape"][0],
-                                self.jac[dvGroup]["shape"][1],
-                            )
+                            f"The supplied Jacobian for dvGroup {dvGroup}' in constraint {self.name}, was the incorrect size. "
+                            + f"Expecting a Jacobian of size ({self.ncon}, {ndvs}) but received a Jacobian of size "
+                            + f"({self.jac[dvGroup]['shape'][0]}, {self.jac[dvGroup]['shape'][1]})."
                         )
                     )
-            # end for (dvGroup)
 
             # If there is anything left in jac print a warning:
             for dvGroup in tmp:
                 pyOptSparseWarning(
-                    "A Jacobian with dvGroup key of '{}' was unused in constraint {}. This will be ignored.".format(
-                        dvGroup, self.name
-                    )
+                    f"A Jacobian with dvGroup key of '{dvGroup}' was unused in constraint {self.name}. This will be ignored."
                 )
 
             # Since this function *may* be called multiple times, only
@@ -366,8 +357,6 @@ class Constraint(object):
                 # Finally partial returns NOT ok, since the user has
                 # supplied information about the sparsity:
                 self.partialReturnOk = False
-
-        # end if (if Jac)
 
     def __str__(self):
         """
@@ -386,7 +375,7 @@ class Constraint(object):
             res += (
                 "	 "
                 + str(self.name).center(9)
-                + "	  i %15.2e <= %8f <= %8.2e\n" % (np.real(lower), np.real(value), np.real(upper))
+                + f"	  i {np.real(lower):15.2e} <= {np.real(value):8f} <= {np.real(upper):8.2e}\n"
             )
 
         return res

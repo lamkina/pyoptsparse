@@ -74,9 +74,9 @@ def swig_sources(self, sources, extension):
                 if not os.path.isfile(target_file):
                     log.warn(
                         (
-                            "target {} does not exist:\n"
-                            + "Assuming {}_wrap.{c,cpp} was generated with 'build_src --inplace' command."
-                        ).format(target_file, name)
+                            f"target {target_file} does not exist:\n"
+                            + f"Assuming {name}_wrap.{c,cpp} was generated with 'build_src --inplace' command."
+                        )
                     )
                     target_dir = os.path.dirname(base)
                     target_file = _find_swig_target(target_dir, name)

@@ -251,8 +251,8 @@ def convertToCOO(mat):
                 (
                     "Unknown matrix format. "
                     + "Must be a dense numpy array or a pyOptSparse sparse matrix format of COO, CSR or CSC. "
-                    + "See documentation for correct format. Supplied Matrix is: {}"
-                ).format(repr(mat))
+                    + f"See documentation for correct format. Supplied Matrix is: {repr(mat)}"
+                )
             )
 
 

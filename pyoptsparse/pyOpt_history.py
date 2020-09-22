@@ -547,9 +547,9 @@ class History(object):
         # error if names isn't either a DV, con or obj
         if not names.issubset(allNames):
             raise Error(
-                "The names provided are not one of DVNames, conNames or objNames.\n\
-                The names must be a subset of {}".format(
-                    allNames
+                (
+                    "The names provided are not one of DVNames, conNames or objNames. "
+                    + f"The names must be a subset of {allNames}"
                 )
             )
         DVsAsFuncs = self.DVNames.intersection(self.conNames)
@@ -557,8 +557,10 @@ class History(object):
             ambiguousNames = names.intersection(DVsAsFuncs)
             if len(ambiguousNames) > 0:
                 pyOptSparseWarning(
-                    "The names provided {} is ambiguous, since it is both a DV as well as an objective/constraint. It is being assumed to be a DV. If it was set up via addDVsAsFunctions, then there's nothing to worry. Otherwise, consider renaming the variable or manually editing the history file.".format(
-                        ambiguousNames
+                    (
+                        f"The names provided {ambiguousNames} is ambiguous, since it is both a DV as well as an objective/constraint. "
+                        + "It is being assumed to be a DV. If it was set up via addDVsAsFunctions, then there's nothing to worry. "
+                        + "Otherwise, consider renaming the variable or manually editing the history file."
                     )
                 )
 
@@ -616,17 +618,13 @@ class History(object):
                             else:  # must be opt
                                 data[name].append(val[name])
                     elif val["fail"] and user_specified_callCounter:
-                        pyOptSparseWarning(
-                            ("callCounter {} contained a failed function evaluation and is skipped!").format(i)
-                        )
+                        pyOptSparseWarning(f"callCounter {i} contained a failed function evaluation and is skipped!")
                 elif user_specified_callCounter:
                     pyOptSparseWarning(
-                        (
-                            "callCounter {} did not contain a function evaluation and is skipped! Was it a gradient evaluation step?"
-                        ).format(i)
+                        f"callCounter {i} did not contain a function evaluation and is skipped! Was it a gradient evaluation step?"
                     )
             elif user_specified_callCounter:
-                pyOptSparseWarning(("callCounter {} was not found and is skipped!").format(i))
+                pyOptSparseWarning(f"callCounter {i} was not found and is skipped!")
         # reshape lists into numpy arrays
         for name in names:
             # we just stack along axis 0

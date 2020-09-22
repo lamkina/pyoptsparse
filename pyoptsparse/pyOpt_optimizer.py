@@ -821,8 +821,9 @@ class Optimizer(object):
                 self.options[name] = [type(value), value]
             else:
                 raise Error(
-                    "Value type for option {} was incorrect. It was expecting type '{}' by received type '{}'".format(
-                        name, self.options["defaults"][name][0], type(value)
+                    (
+                        f"Value type for option {name} was incorrect. "
+                        + f"It was expecting type {self.options['defaults'][name][0]} but received type {type(value)}"
                     )
                 )
         else:
